@@ -1,0 +1,873 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+        html, body {
+            margin: 0;
+            font-family: sans-serif;
+        }
+        .container {
+            background-color: #3374DB;
+            width: 100%;
+            height: 10vh;
+            justify-content: center;
+            align-items: center;
+            display: flex;
+            box-sizing: border-box;
+        }
+        .searchContainer {
+            width: 75%;
+            height: 75%;
+            background-color: #FFFFFF;
+            margin: 0 auto;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+        }
+        .searchInput {
+            height: 90%;
+            width: 90%;
+            border: none;
+            border-radius: 10px;
+            font-size: 22px;
+        }
+        .searchInput:focus {
+            outline: none;
+            border: none;
+        }
+        .searchIcon {
+            margin-left: 60px;
+        }
+        .containerFiltrosCarros {
+            width: 100%;
+            height: 90vh;
+            display: flex;
+            margin-left: 15px;
+        }
+        .containerFiltros {
+            width: 15%;
+            height: 100%;
+            justify-content: center;
+        }
+        .containerCarros {
+            width: 80%;
+            height: 100%;
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 20px;
+        }
+        .itemCarro {
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+            width: 300px;
+            height: 450px;
+            margin-left: 5%;
+            margin-top: 5%;
+            padding: 20px;
+            border-radius: 10px;
+            text-align: center;
+            cursor: pointer;
+        }
+        .imagemCarro {
+            width: 100%;
+            height: auto;
+            border-radius: 10px;
+        }
+        .modeloCaracteristicas {
+            display: block;
+            width: 100%;
+            text-align: left;
+        }
+        .cadastrarCarro {
+            width: 100%;
+            height: 5%;
+            margin-top: 5%;
+            border: none;
+            background-color: #3374DB;
+            color: white;
+            cursor: pointer;
+            border-radius: 5px;
+        }
+        .selectDiv {
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .selectDiv label {
+            margin-bottom: 5px;
+        }
+        .buttonsCarro {
+            width: 100%;
+            height: 40%;
+            margin-top: 5%;
+            border: none;
+            background-color: #3374DB;
+            color: white;
+            cursor: pointer;
+            border-radius: 5px;
+        }
+        .containerEditarCarro {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 90%;
+            height: 90%;
+            background-color: white;
+            display: flex;
+            z-index: 999;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+        }
+        .containerLogin {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 50%;
+            height: 80%;
+            background-color: white;
+            display: flex;
+            z-index: 999;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+        }
+        .containerEditarCarro {
+            width: 70%;
+            height: 70%;
+            overflow: auto;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+        .modalCadastrarUsuario {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 50%;
+            height: 80%;
+            background-color: white;
+            display: flex;
+            z-index: 999;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            overflow: auto;
+        }
+        .inputTexto {
+            width: 100%;
+            border: none;
+            border-bottom: 1px solid #000;
+        }
+        .inputTexto:focus {
+            border: none;
+            border-bottom: 2px solid #3498db;
+            background-color: #fff;
+            outline: none;
+        }
+        .inputTextoLogins {
+            width: 70%;
+            padding: 10px;
+            font-size: 16px;
+            border: none;
+            border-bottom: 1px solid #000;
+            outline: none;
+        }
+        .inputTextoLogins:focus {
+            border: none;
+            border-bottom: 2px solid #3498db;
+            background-color: #fff;
+            outline: none;
+        }
+        .selectInput {
+            width: 100%;
+            padding: 10px;
+            font-size: 16px;
+            border: none;
+            border-bottom: 1px solid #ccc;
+            background-color: #f8f8f8;
+            transition: border-bottom 0.3s ease;
+        }
+        .selectInput:focus {
+            border-bottom: 2px solid #3498db;
+            background-color: #fff;
+        }
+        .selectInput:disabled {
+            background-color: #f0f0f0;
+            border-bottom: 1px dashed #ccc;
+        }
+        .selectInput::after {
+            content: '▼';
+            position: absolute;
+            top: 50%;
+            right: 10px;
+            transform: translateY(-50%);
+            font-size: 14px;
+            color: #555;
+        }
+        .selectInputCad {
+            width: 70%;
+            padding: 10px;
+            font-size: 16px;
+            border: none;
+            border-bottom: 1px solid #ccc;
+            background-color: #f8f8f8;
+            transition: border-bottom 0.3s ease;
+        }
+        .selectInputCad:focus {
+            border-bottom: 2px solid #3498db;
+            background-color: #fff;
+        }
+        .selectInputCad:disabled {
+            background-color: #f0f0f0;
+            border-bottom: 1px dashed #ccc;
+        }
+        .selectInputCad::after {
+            content: '▼';
+            position: absolute;
+            top: 50%;
+            right: 10px;
+            transform: translateY(-50%);
+            font-size: 14px;
+            color: #555;
+        }
+        .filtroField {
+            padding: 10px;
+        }
+        .divFieldLogins {
+            display: flex;
+            flex-direction: column;
+            padding: 20px;
+            justify-content: center;
+            align-items: center;
+        }
+        .divFieldLogins label {
+            margin-bottom: 5px;
+        }
+        .textError {
+            color: red;
+        }
+        .buttonModal {
+            width: 70%;
+            height: 20%;
+            margin-top: 5%;
+            border: none;
+            background-color: #3374DB;
+            color: white;
+            cursor: pointer;
+            border-radius: 5px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="searchContainer">
+            <input class="searchInput" onChange="filtro()" placeholder="Procure um veículo por nome" id="modeloFiltro" />
+            <svg xmlns="http://www.w3.org/2000/svg" height="1.5em" class="searchIcon" viewBox="0 0 512 512"><!--! Font Awesome Free 6.4.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. --><path d="M416 208c0 45.9-14.9 88.3-40 122.7L502.6 457.4c12.5 12.5 12.5 32.8 0 45.3s-32.8 12.5-45.3 0L330.7 376c-34.4 25.2-76.8 40-122.7 40C93.1 416 0 322.9 0 208S93.1 0 208 0S416 93.1 416 208zM208 352a144 144 0 1 0 0-288 144 144 0 1 0 0 288z"/></svg>
+        </div>
+    </div>
+    <div class="containerFiltrosCarros">
+        <div class="containerFiltros">
+            <button class="cadastrarCarro" onClick="showLoginModal()">Cadastrar novo veículo</button>
+            <div class="filtroField">
+                <label>Filtrar por ano</label>
+                <input class="inputTexto" placeholder="Digite o ano do carro que você busca" id="anoFiltro" onChange="filtro()" />
+            </div>
+            <div class="filtroField">
+                <label>Filtrar por km</label>
+                <input class="inputTexto" placeholder="Digite a quilometragem máxima do carro que você busca" id="kmFiltro" onChange="filtro()" />
+            </div>
+            <div class="filtroField">
+                <label>Filtrar por preço</label>
+                <input class="inputTexto" placeholder="Digite o preço máximo do carro que você busca" id="precoFiltro" onChange="filtro()" />
+            </div>
+            <div class="filtroField">
+                <label>Filtrar por câmbio</label>
+                <select class="selectInput" id="cambioFiltro" onChange="filtro()">
+                    <option value="">Todos</option>
+                    <option value="Manual">Manual</option>
+                    <option value="Automático">Automático</option>
+                </select>
+            </div>
+        </div>
+        <div id="containerCarros" class="containerCarros">
+        </div>
+    </div>
+    <div id="modalLogin" class="containerLogin" style="display: none">
+        <div onClick="closeContainerLogin()">
+            <svg xmlns="http://www.w3.org/2000/svg" height="3em" style="padding: 10px; cursor: pointer;" viewBox="0 0 512 512"><!--! Font Awesome Free 6.4.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. --><path d="M256 48a208 208 0 1 1 0 416 208 208 0 1 1 0-416zm0 464A256 256 0 1 0 256 0a256 256 0 1 0 0 512zM175 175c-9.4 9.4-9.4 24.6 0 33.9l47 47-47 47c-9.4 9.4-9.4 24.6 0 33.9s24.6 9.4 33.9 0l47-47 47 47c9.4 9.4 24.6 9.4 33.9 0s9.4-24.6 0-33.9l-47-47 47-47c9.4-9.4 9.4-24.6 0-33.9s-24.6-9.4-33.9 0l-47 47-47-47c-9.4-9.4-24.6-9.4-33.9 0z"/></svg>
+        </div>
+        <h2>Você precisa logar para editar este carro</h2>
+        <div class="divFieldLogins">
+            <label for="emailLogin">Email</label>
+            <input class="inputTextoLogins" placeholder="Digite seu email aqui" id="emailLogin" />
+        </div>
+        <div class="divFieldLogins">
+            <label for="senhaLogin">Senha</label>
+            <input class="inputTextoLogins" placeholder="Digite sua senha aqui" id="senhaLogin" type="password" />
+        </div>
+        <p id="UserNotFound" style="display: none;" class="textError">Usuário não encontrado</p>
+        <p id="BadPassword" style="display: none;" class="textError">Credenciais incorretas</p>
+        <div>
+            <button onClick="loginEditarCarro()" class="buttonModal">Entrar</button>
+        </div>
+        <div>
+            <button onClick="showUserRegister()" class="buttonModal">Não tem um usuário? Cadastre-se aqui!</button>
+        </div>
+    </div>
+    <div id="modalLoginCadastrar" class="containerLogin" style="display: none">
+        <div onClick="closeModalLoginCadastrar()">
+            <svg xmlns="http://www.w3.org/2000/svg" height="3em" style="padding: 10px; cursor: pointer;" viewBox="0 0 512 512"><!--! Font Awesome Free 6.4.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. --><path d="M256 48a208 208 0 1 1 0 416 208 208 0 1 1 0-416zm0 464A256 256 0 1 0 256 0a256 256 0 1 0 0 512zM175 175c-9.4 9.4-9.4 24.6 0 33.9l47 47-47 47c-9.4 9.4-9.4 24.6 0 33.9s24.6 9.4 33.9 0l47-47 47 47c9.4 9.4 24.6 9.4 33.9 0s9.4-24.6 0-33.9l-47-47 47-47c9.4-9.4 9.4-24.6 0-33.9s-24.6-9.4-33.9 0l-47 47-47-47c-9.4-9.4-24.6-9.4-33.9 0z"/></svg>
+        </div>
+        <h2>Você precisa logar para cadastrar um carro</h2>
+        <div class="divFieldLogins">
+            <label >Email</label>
+            <input class="inputTextoLogins" placeholder="Digite seu email aqui" id="emailLoginCad" />
+        </div>
+        <div class="divFieldLogins">
+            <label>Senha</label>
+            <input class="inputTextoLogins" placeholder="Digite sua senha aqui" id="senhaLoginCad" type="password" />
+        </div>
+        <p id="UserNotFound" style="display: none;" class="textError">Usuário não encontrado</p>
+        <p id="BadPassword" style="display: none;" class="textError">Credenciais incorretas</p>
+        <div>
+            <button class="buttonModal" onClick="loginCadastrarCarro()">Entrar</button>
+        </div>
+        <div>
+            <button class="buttonModal" onClick="showUserRegister()">Não tem um usuário? Cadastre-se aqui!</button>
+        </div>
+    </div>
+    <div id="modalCadastrarUsuario" class="modalCadastrarUsuario" style="display: none">
+        <div onClick="closeCadastrarUser()">
+            <svg xmlns="http://www.w3.org/2000/svg" height="3em" style="padding: 10px; cursor: pointer;" viewBox="0 0 512 512"><!--! Font Awesome Free 6.4.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. --><path d="M256 48a208 208 0 1 1 0 416 208 208 0 1 1 0-416zm0 464A256 256 0 1 0 256 0a256 256 0 1 0 0 512zM175 175c-9.4 9.4-9.4 24.6 0 33.9l47 47-47 47c-9.4 9.4-9.4 24.6 0 33.9s24.6 9.4 33.9 0l47-47 47 47c9.4 9.4 24.6 9.4 33.9 0s9.4-24.6 0-33.9l-47-47 47-47c9.4-9.4 9.4-24.6 0-33.9s-24.6-9.4-33.9 0l-47 47-47-47c-9.4-9.4-24.6-9.4-33.9 0z"/></svg>
+        </div>
+        <h2>Cadastro de usuário</h2>
+        <div class="divFieldLogins">
+            <label>Nome Completo</label>
+            <input class="inputTextoLogins" placeholder="Digite seu nome aqui" id="nomeCad" />
+        </div>
+        <div class="divFieldLogins">
+            <label>Email</label>
+            <input class="inputTextoLogins" placeholder="Digite seu email aqui" id="emailCad" />
+        </div>
+        <div class="divFieldLogins">
+            <label>Senha</label>
+            <input class="inputTextoLogins" placeholder="Digite sua senha aqui" id="senhaCad" type="password" />
+        </div>
+        <div>
+            <button class="buttonModal" onClick="cadastraUser()">Cadastrar</button>
+        </div>
+    </div>
+    <div class="containerEditarCarro" id="containerEditarCarro" style="display: none;" >
+            <div onClick="closeContainerEditar()">
+                <svg xmlns="http://www.w3.org/2000/svg" height="3em" style="padding: 10px; cursor: pointer;" viewBox="0 0 512 512"><!--! Font Awesome Free 6.4.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. --><path d="M256 48a208 208 0 1 1 0 416 208 208 0 1 1 0-416zm0 464A256 256 0 1 0 256 0a256 256 0 1 0 0 512zM175 175c-9.4 9.4-9.4 24.6 0 33.9l47 47-47 47c-9.4 9.4-9.4 24.6 0 33.9s24.6 9.4 33.9 0l47-47 47 47c9.4 9.4 24.6 9.4 33.9 0s9.4-24.6 0-33.9l-47-47 47-47c9.4-9.4 9.4-24.6 0-33.9s-24.6-9.4-33.9 0l-47 47-47-47c-9.4-9.4-24.6-9.4-33.9 0z"/></svg>
+            </div>
+            <div class="divFieldLogins">
+                <label>Nome do anúncio</label>
+                <input class="inputTextoLogins" placeholder="Digite o nome do seu anúncio" id="editarNome"></input>
+            </div>
+            <div class="divFieldLogins">
+                <label>Marca</label>
+                <input class="inputTextoLogins" placeholder="Digite a marca do seu carro" id="editarMarca"></input>
+            </div>
+            <div class="divFieldLogins">
+                <label>Modelo</label>
+                <input class="inputTextoLogins" placeholder="Digite o modelo do seu carro" id="editarModelo"></input>
+            </div>
+            <div class="divFieldLogins">
+                <label>Ano</label>
+                <input class="inputTextoLogins" type="number" placeholder="Digite o ano do seu carro" id="editarAno"></input>
+            </div>
+            <div class="divFieldLogins">
+                <label>Quilometragem</label>
+                <input class="inputTextoLogins" type="number" step="0.01" placeholder="Digite a quilometragem do seu carro" id="editarKm"></input>
+            </div>
+            <div class="divFieldLogins">
+                <label>Motor</label>
+                <input class="inputTextoLogins" placeholder="Digite o motor do seu carro" id="editarMotor"></input>
+            </div>
+            <div class="divFieldLogins">
+                <label>Câmbio</label>
+                <select class="selectInputCad" placeholder="Digite o tipo de câmbio do seu carro" id="editarCambio">
+                    <option value="Automático">Automático</option>
+                    <option value="Manual">Manual</option>
+                </select>
+            </div>
+            <div class="divFieldLogins">
+                <label>Preço</label>
+                <input class="inputTextoLogins" type="number" step="0.01" placeholder="Digite o preço do seu carro" id="editarPreco"></input>
+            </div>
+            <div class="divFieldLogins">
+                <button class="buttonModal" onClick="editarCarro()">Enviar</button>
+            </div>
+    </div>
+    <div class="containerEditarCarro" id="containerCadastrarCarro" style="display: none;" >
+        <div onClick="closeContainerCad()">
+            <svg xmlns="http://www.w3.org/2000/svg" height="3em" style="padding: 10px; cursor: pointer;" viewBox="0 0 512 512"><!--! Font Awesome Free 6.4.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. --><path d="M256 48a208 208 0 1 1 0 416 208 208 0 1 1 0-416zm0 464A256 256 0 1 0 256 0a256 256 0 1 0 0 512zM175 175c-9.4 9.4-9.4 24.6 0 33.9l47 47-47 47c-9.4 9.4-9.4 24.6 0 33.9s24.6 9.4 33.9 0l47-47 47 47c9.4 9.4 24.6 9.4 33.9 0s9.4-24.6 0-33.9l-47-47 47-47c9.4-9.4 9.4-24.6 0-33.9s-24.6-9.4-33.9 0l-47 47-47-47c-9.4-9.4-24.6-9.4-33.9 0z"/></svg>
+        </div>
+        <div class="divFieldLogins">
+            <label>Nome do anúncio</label>
+            <input class="inputTextoLogins" placeholder="Digite o nome do seu anúncio" id="editarNomeCad"></input>
+        </div>
+        <div class="divFieldLogins">
+            <label>Marca</label>
+            <input class="inputTextoLogins" placeholder="Digite a marca do seu carro" id="editarMarcaCad"></input>
+        </div>
+        <div class="divFieldLogins">
+            <label>Modelo</label>
+            <input class="inputTextoLogins" placeholder="Digite o modelo do seu carro" id="editarModeloCad"></input>
+        </div>
+        <div class="divFieldLogins">
+            <label>Ano</label>
+            <input class="inputTextoLogins" type="number" placeholder="Digite o ano do seu carro" id="editarAnoCad"></input>
+        </div>
+        <div class="divFieldLogins">
+            <label>Quilometragem</label>
+            <input class="inputTextoLogins" type="number" step="0.01" placeholder="Digite a quilometragem do seu carro" id="editarKmCad"></input>
+        </div>
+        <div class="divFieldLogins">
+            <label>Motor</label>
+            <input class="inputTextoLogins" placeholder="Digite o motor do seu carro" id="editarMotorCad"></input>
+        </div>
+        <div class="divFieldLogins">
+            <label>Câmbio</label>
+            <select class="selectInputCad" placeholder="Digite o tipo de câmbio do seu carro" id="editarCambioCad">
+                <option value="Automático">Automático</option>
+                <option value="Manual">Manual</option>
+            </select>
+        </div>
+        <div class="divFieldLogins">
+            <label>Preço</label>
+            <input class="inputTextoLogins" type="number" step="0.01" placeholder="Digite o preço do seu carro" id="editarPrecoCad"></input>
+        </div>
+        <div class="divFieldLogins">
+            <label>Foto</label>
+            <input class="inputTextoLogins" id="fileCad" type="file"></input>
+        </div>
+        <div class="divFieldLogins">
+            <button class="buttonModal" onClick="cadastrarCarro()">Enviar</button>
+        </div>
+    </div>
+</body>
+<script>
+    function closeCadastrarUser(){
+        document.querySelector("#modalCadastrarUsuario").style.display = 'none'
+    }
+
+    function closeModalLoginCadastrar(){
+        document.querySelector("#modalLoginCadastrar").style.display = 'none'
+    }
+
+    function closeContainerCad(){
+        document.querySelector("#containerCadastrarCarro").style.display = 'none'
+    }
+
+    function closeContainerEditar(){
+        document.querySelector("#containerEditarCarro").style.display = 'none'
+    }
+
+    function closeContainerLogin(){
+        document.querySelector("#modalLogin").style.display = 'none';
+    }
+
+    function cadastraUser(){
+        const nome = document.querySelector("#nomeCad").value
+        const email = document.querySelector("#emailCad").value
+        const senha = document.querySelector("#senhaCad").value
+
+        var myHeaders = new Headers();
+        myHeaders.append("Content-Type", "application/json");
+
+        var raw = JSON.stringify({
+        "nome": `${nome}`,
+        "email": `${email}`,
+        "senha": `${senha}`
+        });
+
+        var requestOptions = {
+        method: 'POST',
+        headers: myHeaders,
+        body: raw,
+        redirect: 'follow'
+        };
+
+        const link = "http://54.208.196.225:5000/registeruser"
+
+        fetch(link, requestOptions)
+        .then(response => response.json())
+        .then(result => {
+            if(result.mensagem == "Usuario criado com sucesso"){
+                alert("Usuario criado com sucesso!")
+                document.querySelector("#modalCadastrarUsuario").style.display = 'none';
+            }
+        })
+        .catch(error => console.log('error', error));
+    }
+
+    function showUserRegister(){
+        document.querySelector("#modalLoginCadastrar").style.display = 'none';
+        document.querySelector("#modalLogin").style.display = 'none';
+        document.querySelector("#modalCadastrarUsuario").style.display = 'block';
+    }
+
+    function cadastrarCarro() {
+        const queryParams = new URLSearchParams(window.location.search);
+        const codigoUsuario = queryParams.get('user');
+        const token = queryParams.get('token').replace("%27", "'");
+        const nome = document.querySelector("#editarNomeCad").value;
+        const marca = document.querySelector("#editarMarcaCad").value;
+        const modelo = document.querySelector("#editarModeloCad").value;
+        const ano = document.querySelector("#editarAnoCad").value;
+        const km = document.querySelector("#editarKmCad").value;
+        const motor = document.querySelector("#editarMotorCad").value;
+        const cambio = document.querySelector("#editarCambioCad").value;
+        const preco = document.querySelector("#editarPrecoCad").value;
+        const foto = document.querySelector("#fileCad").files[0];
+    
+        var formdata = new FormData();
+        formdata.append("file", foto);
+    
+        var requestOptionsFile = {
+            method: 'POST',
+            body: formdata,
+            redirect: 'follow',
+        };
+    
+        const linkFileUpload = "http://54.208.196.225:5000/uploadfile";
+    
+        fetch(linkFileUpload, requestOptionsFile)
+            .then(response => response.json())
+            .then(result => {
+                if (result.mensagem == 'Arquivo enviado com sucesso') {
+                    var myHeaders = new Headers();
+                    myHeaders.append("Content-Type", "application/json");
+    
+                    var raw = JSON.stringify({
+                        "ano": ano,
+                        "cambio": `${cambio}`,
+                        "dono_id": codigoUsuario,
+                        "foto": `${result.dados}`,
+                        "km": km,
+                        "marca": `${marca}`,
+                        "modelo": `${modelo}`,
+                        "motor": `${motor}`,
+                        "nome": `${nome}`,
+                        "preco": preco
+                    });
+    
+                    var requestOptions = {
+                        method: 'POST',
+                        headers: myHeaders,
+                        body: raw,
+                        redirect: 'follow',
+                        credenciais: 'include',
+                    };
+    
+                    const linkCadastro = `http://54.208.196.225:5000/registercarro?token=${token}`;
+    
+                    fetch(linkCadastro, requestOptions)
+                        .then(response => response.json())
+                        .then(result => {
+                            if (result.mensagem == 'Carro criado com sucesso') {
+                                alert("Carro criado com sucesso");
+                                const newQueryParams = new URLSearchParams();
+                                window.history.replaceState(null, null, `${window.location.pathname}?${newQueryParams.toString()}`);
+                                location.reload();
+                            }
+                        })
+                        .catch(error => console.log('error', error));
+                }
+            })
+            .catch(error => console.log('error', error));
+    }
+    
+
+    function showLoginModal(){
+        document.querySelector("#modalLoginCadastrar").style.display = 'block'
+    }
+
+    function loginCadastrarCarro(){
+        const email = document.querySelector('#emailLoginCad').value
+        const senha = document.querySelector('#senhaLoginCad').value
+        var myHeaders = new Headers();
+        myHeaders.append("Content-Type", "application/json");
+
+        var raw = JSON.stringify({
+        "email": `${email}`,
+        "senha": `${senha}`
+        });
+
+        var requestOptions = {
+        method: 'POST',
+        headers: myHeaders,
+        body: raw,
+        redirect: 'follow'
+        };
+
+        const link = "http://54.208.196.225:5000/login"
+
+        fetch(link, requestOptions)
+        .then(response => response.json())
+        .then(result => {
+            if (result.mensagem == 'Validacao sucedida'){
+                const queryParams = new URLSearchParams(window.location.search);
+                queryParams.set('token', result.token)
+                queryParams.set('user', result.user)
+                const newUrl = `${window.location.pathname}?${queryParams.toString()}`;
+                window.history.replaceState(null, null, newUrl);
+                document.querySelector("#UserNotFoundCad").style.display = 'none';
+                document.querySelector("#BadPasswordCad").style.display = 'none';
+                document.querySelector("#modalLoginCadastrar").style.display = 'none';
+                document.querySelector("#containerCadastrarCarro").style.display = 'block';
+            } else if(result.mensagem == 'Usuario nao encontrado'){
+                document.querySelector("#BadPasswordCad").style.display = 'none';
+                document.querySelector("#UserNotFoundCad").style.display = 'block';
+            } else if(result.mensagem == 'credenciais incorretas'){
+                document.querySelector("#UserNotFoundCad").style.display = 'none';
+                document.querySelector("#BadPasswordCad").style.display = 'block';
+            }
+        })
+        .catch(error => console.log('error', error));
+    }
+    
+    function editarCarro(){
+
+        const nome = document.querySelector("#editarNome").value
+        const marca = document.querySelector("#editarMarca").value
+        const modelo = document.querySelector("#editarModelo").value
+        const ano = document.querySelector("#editarAno").value
+        const km = document.querySelector("#editarKm").value
+        const motor = document.querySelector("#editarMotor").value
+        const cambio = document.querySelector("#editarCambio").value
+        const preco = document.querySelector("#editarPreco").value
+
+        const queryParams = new URLSearchParams(window.location.search);
+        const codigoCarro = queryParams.get('codigo')
+        const token = queryParams.get('token').replace("%27", "'")
+
+        var myHeaders = new Headers();
+        myHeaders.append("Content-Type", "application/json");
+
+        var raw = JSON.stringify({
+        "nome": `${nome}`,
+        "marca": `${marca}`,
+        "modelo": `${modelo}`,
+        "ano": `${ano}`,
+        "km": `${km}`,
+        "motor": `${motor}`,
+        "cambio": `${cambio}`,
+        "preco": `${preco}`
+        });
+
+        var requestOptions = {
+        method: 'PUT',
+        headers: myHeaders,
+        body: raw,
+        redirect: 'follow'
+        };
+
+        console.log(token)
+
+        const link = `http://54.208.196.225:5000/updatecarro/${codigoCarro}?token=${token}`
+
+        fetch(link, requestOptions)
+        .then(response => response.json())
+        .then(result => {
+            console.log(result);
+            if (result.mensagem == 'Carro atualizado com sucesso'){
+                alert("Carro atualizado com sucesso")
+                const newQueryParams = new URLSearchParams();
+                window.history.replaceState(null, null, `${window.location.pathname}?${newQueryParams.toString()}`);
+                location.reload()
+            }
+        })
+        .catch(error => console.log('error', error));
+    }
+
+    function loginEditarCarro(){
+        const email = document.querySelector('#emailLogin').value
+        const senha = document.querySelector('#senhaLogin').value
+        var myHeaders = new Headers();
+        myHeaders.append("Content-Type", "application/json");
+
+        var raw = JSON.stringify({
+        "email": `${email}`,
+        "senha": `${senha}`
+        });
+
+        var requestOptions = {
+        method: 'POST',
+        headers: myHeaders,
+        body: raw,
+        redirect: 'follow'
+        };
+
+        const link = "http://54.208.196.225:5000/login"
+
+        fetch(link, requestOptions)
+        .then(response => response.json())
+        .then(result => {
+            console.log(result.token);
+            if (result.mensagem == 'Validacao sucedida'){
+            const queryParams = new URLSearchParams(window.location.search);
+            queryParams.set('token', result.token)
+            queryParams.set('user', result.user)
+            const newUrl = `${window.location.pathname}?${queryParams.toString()}`;
+            window.history.replaceState(null, null, newUrl);
+            document.querySelector("#UserNotFound").style.display = 'none';
+            document.querySelector("#BadPassword").style.display = 'none';
+            document.querySelector("#modalLogin").style.display = 'none';
+
+            var requestOptions = {
+                method: 'GET',
+                redirect: 'follow'
+              };
+
+            const linkCarro = `http://54.208.196.225:5000/getcarro/${queryParams.get('codigo')}`
+              
+            fetch(linkCarro, requestOptions)
+                .then(response => response.json())
+                .then(result => {
+                    console.log(result)
+                    document.querySelector("#editarNome").value = result.dados.nome
+                    document.querySelector("#editarMarca").value = result.dados.marca
+                    document.querySelector("#editarModelo").value = result.dados.modelo
+                    document.querySelector("#editarAno").value = result.dados.ano
+                    document.querySelector("#editarKm").value = result.dados.km
+                    document.querySelector("#editarMotor").value = result.dados.motor
+                    document.querySelector("#editarCambio").value = result.dados.cambio
+                    document.querySelector("#editarPreco").value = result.dados.preco
+                    if (result.dados.dono_id == queryParams.get('user')){
+                        document.querySelector("#containerEditarCarro").style.display = 'block';
+                    } else {
+                        alert("Você não é o dono deste anúncio, cadastre um carro para poder edita-lo")
+                    }
+                    
+                })
+                .catch(error => console.log('error', error));
+            } else if(result.mensagem == 'Usuario nao encontrado'){
+                document.querySelector("#UserNotFound").style.display = 'block';
+            } else if(result.mensagem == 'credenciais incorretas'){
+                document.querySelector("#BadPassword").style.display = 'block';
+            }
+        })
+        .catch(error => console.log('error', error));
+
+    }
+
+    function changePage(codigoCarro, codigoDono) {
+        const queryParams = new URLSearchParams(window.location.search);
+        queryParams.set('codigo', codigoCarro);
+        queryParams.set('dono', codigoDono);
+        const newUrl = `${window.location.pathname}?${queryParams.toString()}`;
+        window.history.replaceState(null, null, newUrl);
+        const loginModal = document.querySelector("#modalLogin")
+        loginModal.style.display = 'block';
+    }
+
+    function showButtons(carroEscolhidoId) {
+        carroEscolhidoId.style.display = 'block';
+        }
+
+    
+    async function filtro() {
+        try {
+            const modelo = document.querySelector("#modeloFiltro").value;
+            const ano = document.querySelector("#anoFiltro").value;
+            const km = document.querySelector("#kmFiltro").value;
+            const preco = document.querySelector("#precoFiltro").value;
+            const cambio = document.querySelector("#cambioFiltro").value;
+    
+            const response = await fetch("http://54.208.196.225:5000/getcarros");
+            const result = await response.json();
+            const carrosShow = result.dados;
+    
+            const carrosFiltrados = carrosShow.filter(carro => (
+                (modelo === "" || carro.modelo.includes(modelo)) &&
+                (ano === "" || carro.ano <= parseInt(ano)) &&
+                (km === "" || carro.km <= parseInt(km)) &&
+                (preco === "" || carro.preco <= parseInt(preco)) &&
+                (cambio === "" || carro.cambio === cambio)
+            ));
+    
+            const containerCarros = document.querySelector('#containerCarros');
+            containerCarros.innerHTML = "";
+    
+            for (const carro of carrosFiltrados) {
+                containerCarros.innerHTML += `
+                    <div class="itemCarro" onClick="showButtons(carroNum${carro.id})">
+                        <img src="${carro.foto}" alt="${carro.nome}" class="imagemCarro">
+                        <div class="modeloCaracteristicas">
+                            <p class="textoCarro">${carro.marca} • ${carro.modelo}</p>
+                            <p class="textoCarro">${carro.ano} • ${carro.km} km • ${carro.motor} • ${carro.cambio}</p>
+                            <p class="textoCarro">Preço a vista:</p>
+                            <p class="textoCarro">R$ ${carro.preco}</p>
+                        </div>
+                        <div id="carroNum${carro.id}" class="contactAndEditButton" style="display: none;">
+                            <button class="buttonsCarro">Contatar anunciante</button>
+                            <button class="buttonsCarro" onClick="changePage(${carro.id}, ${carro.dono_id})">Editar carro</button>
+                        </div>
+                    </div>
+                `;
+            }
+        } catch (error) {
+            console.error('Erro:', error);
+        }
+    }
+        
+        
+        
+
+    document.addEventListener('DOMContentLoaded', async function () {
+        var requestOptions = {
+            method: 'GET',
+            redirect: 'follow'
+        };
+        const link = "http://54.208.196.225:5000/getcarros";
+
+        fetch(link, requestOptions)
+            .then(response => response.json())
+            .then(result => {
+                console.log(result);
+
+                const containerCarros = document.querySelector('#containerCarros');
+
+                containerCarros.innerHTML = "";
+
+                const listaCarros = result.dados;
+
+                for (let i = 0; i <= listaCarros.length; i++) {
+                    containerCarros.innerHTML += `
+                    <div class="itemCarro" onClick="showButtons(carroNum${listaCarros[i].id})">
+                        <img src="${listaCarros[i].foto}" alt="${listaCarros[i].nome}" class="imagemCarro">
+                        <div class="modeloCaracteristicas">
+                            <p class="textoCarro">${listaCarros[i].marca} • ${listaCarros[i].modelo}</p>
+                            <p class="textoCarro">${listaCarros[i].ano} • ${listaCarros[i].km} km • ${listaCarros[i].motor} • ${listaCarros[i].cambio}</p>
+                            <p class="textoCarro">Preço a vista:</p>
+                            <p class="textoCarro">R$ ${listaCarros[i].preco}</p>
+                        </div>
+                        <div id="carroNum${listaCarros[i].id}" class="contactAndEditButton" style="display: none;">
+                            <button class="buttonsCarro"><a style="color: white;" href="https://api.whatsapp.com/send?phone=5511948752451&text=Ol%C3%A1%20avaliador%20da%20Verzel%2C%20curtindo%20meu%20teste%3F%20Espero%20que%20sim%20hahaha">Contatar anunciante</a></button>
+                            <button class="buttonsCarro" onClick="changePage(${listaCarros[i].id}, ${listaCarros[i].dono_id})">Editar carro</button>
+                        </div>
+                    </div>
+                `;
+                }
+            })
+            .catch(error => console.log('error', error));
+    });
+</script>
+
+
+
+
+</html>
