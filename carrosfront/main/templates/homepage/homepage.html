@@ -3,7 +3,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>Carros</title>
     <style>
         html, body {
             margin: 0;
@@ -497,14 +497,16 @@
         method: 'POST',
         headers: myHeaders,
         body: raw,
-        redirect: 'follow'
+        redirect: 'follow',
+        mode: 'cors'
         };
 
-        const link = "http://54.208.196.225:5000/registeruser"
+        const link = "http://54.208.196.225:5000/users/registeruser"
 
         fetch(link, requestOptions)
         .then(response => response.json())
         .then(result => {
+            console.log(result)
             if(result.mensagem == "Usuario criado com sucesso"){
                 alert("Usuario criado com sucesso!")
                 document.querySelector("#modalCadastrarUsuario").style.display = 'none';
