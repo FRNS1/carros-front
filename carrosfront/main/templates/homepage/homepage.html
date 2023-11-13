@@ -459,6 +459,27 @@
     </div>
 </body>
 <script>
+    function formataTodosValores(){
+        const camposValor = document.getElementsByClassName('valorCarro')
+        console.log(camposValor)
+        for (const campo of camposValor){
+            console.log(campo.innerHTML)
+            console.log(formatarValorParaReal(parseFloat(campo.innerHTML)))
+            campo.innerHTML = formatarValorParaReal(parseFloat(campo.innerHTML));
+        }
+    }
+
+    function formatarValorParaReal(valor) {
+        const opcoesDeFormatacao = {
+            style: 'currency',
+            currency: 'BRL',
+            minimumFractionDigits: 2,
+            maximumFractionDigits: 2,
+        };
+
+        return valor.toLocaleString('pt-BR', opcoesDeFormatacao);
+    }
+
     function closeCadastrarUser(){
         document.querySelector("#modalCadastrarUsuario").style.display = 'none'
     }
@@ -813,15 +834,17 @@
                             <p class="textoCarro">${carro.marca} • ${carro.modelo}</p>
                             <p class="textoCarro">${carro.ano} • ${carro.km} km • ${carro.motor} • ${carro.cambio}</p>
                             <p class="textoCarro">Preço a vista:</p>
-                            <p class="textoCarro">R$ ${carro.preco}</p>
+                            <p class="textoCarro valorCarro">${carro.preco}</p>
                         </div>
                         <div id="carroNum${carro.id}" class="contactAndEditButton" style="display: none;">
                             <button class="buttonsCarro">Contatar anunciante</button>
-                            <button class="buttonsCarro" onClick="changePage(${carro.id}, ${carro.dono_id})">Editar carro</button>
+                            <button class="buttonsCarro valorCarro" onClick="changePage(${carro.id}, ${carro.dono_id})">Editar carro</button>
                         </div>
                     </div>
                 `;
             }
+
+            formataTodosValores();
         } catch (error) {
             console.error('Erro:', error);
         }
@@ -837,7 +860,7 @@
         };
         const link = "http://54.208.196.225:5000/getcarros";
 
-        fetch(link, requestOptions)
+        await fetch(link, requestOptions)
             .then(response => response.json())
             .then(result => {
                 console.log(result);
@@ -856,7 +879,7 @@
                             <p class="textoCarro">${listaCarros[i].marca} • ${listaCarros[i].modelo}</p>
                             <p class="textoCarro">${listaCarros[i].ano} • ${listaCarros[i].km} km • ${listaCarros[i].motor} • ${listaCarros[i].cambio}</p>
                             <p class="textoCarro">Preço a vista:</p>
-                            <p class="textoCarro">R$ ${listaCarros[i].preco}</p>
+                            <p class="textoCarro valorCarro">${listaCarros[i].preco}</p>
                         </div>
                         <div id="carroNum${listaCarros[i].id}" class="contactAndEditButton" style="display: none;">
                             <button class="buttonsCarro"><a style="color: white;" href="https://api.whatsapp.com/send?phone=5511948752451&text=Ol%C3%A1%20avaliador%20da%20Verzel%2C%20curtindo%20meu%20teste%3F%20Espero%20que%20sim%20hahaha">Contatar anunciante</a></button>
@@ -867,6 +890,8 @@
                 }
             })
             .catch(error => console.log('error', error));
+
+            formataTodosValores();
     });
 </script>
 
