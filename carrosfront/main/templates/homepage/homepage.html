@@ -618,14 +618,15 @@
         fetch(link, requestOptions)
         .then(response => response.json())
         .then(result => {
+            console.log(result)
             if (result.mensagem == 'Validacao sucedida'){
                 const queryParams = new URLSearchParams(window.location.search);
                 queryParams.set('token', result.token)
                 queryParams.set('user', result.user)
                 const newUrl = `${window.location.pathname}?${queryParams.toString()}`;
                 window.history.replaceState(null, null, newUrl);
-                document.querySelector("#UserNotFoundCad").style.display = 'none';
-                document.querySelector("#BadPasswordCad").style.display = 'none';
+                console.log(document.querySelector("#modalLoginCadastrar"))
+                console.log(document.querySelector("#containerCadastrarCarro"))
                 document.querySelector("#modalLoginCadastrar").style.display = 'none';
                 document.querySelector("#containerCadastrarCarro").style.display = 'block';
             } else if(result.mensagem == 'Usuario nao encontrado'){
