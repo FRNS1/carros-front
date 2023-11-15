@@ -258,10 +258,20 @@
         }
         .buttonModal {
             width: 70%;
-            height: 20%;
+            height: 40px;
             margin-top: 5%;
             border: none;
             background-color: #3374DB;
+            color: white;
+            cursor: pointer;
+            border-radius: 5px;
+        }
+        .buttonDanger {
+            width: 70%;
+            height: 40px;
+            margin-top: 5%;
+            border: none;
+            background-color: red;
             color: white;
             cursor: pointer;
             border-radius: 5px;
@@ -409,6 +419,9 @@
             <div class="divFieldLogins">
                 <button class="buttonModal" onClick="editarCarro()">Enviar</button>
             </div>
+            <div class="divFieldLogins">
+                <button class="buttonDanger" onClick="deleteCarro()">Deletar carro</button>
+            </div>
     </div>
     <div class="containerEditarCarro" id="containerCadastrarCarro" style="display: none;" >
         <div onClick="closeContainerCad()">
@@ -459,6 +472,29 @@
     </div>
 </body>
 <script>
+    async function deleteCarro() {
+        const queryParams = new URLSearchParams(window.location.search);
+        const linkCarro = `http://54.208.196.225:5000/deletecarro/${queryParams.get('codigo')}?token=${queryParams.get('token').replace("%27", "'")}`;
+        try {
+          const response = await fetch(linkCarro, {
+            method: 'DELETE',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+          });
+          const data = await response.json();
+          console.log(data);
+      
+          if (data.mensagem === 'Carro deletado com sucesso.') {
+            alert('Carro deletado com sucesso');
+            closeContainerEditar();
+          }
+        } catch (error) {
+          console.error('Erro ao deletar carro:', error);
+        }
+      };
+
+
     function formataTodosValores(){
         const camposValor = document.getElementsByClassName('valorCarro')
         console.log(camposValor)
@@ -565,7 +601,8 @@
             redirect: 'follow',
         };
     
-        const linkFileUpload = "http://54.208.196.225:5000/uploadfile";
+        const linkFileUpload = `http://54.208.196.225:5000/uploadfile?token=${queryParams.get('token').replace("%27", "'")}`;
+
     
         fetch(linkFileUpload, requestOptionsFile)
             .then(response => response.json())
@@ -881,7 +918,7 @@
                             <p class="textoCarro">Preço a vista:</p>
                             <p class="textoCarro valorCarro">${listaCarros[i].preco}</p>
                         </div>
-                        <div id="carroNum${listaCarros[i].id}" class="contactAndEditButton" style="display: none;">
+                        <div id="carroNum${listaCarros[i].id}" class="contactAndEditButton">
                             <button class="buttonsCarro"><a style="color: white;" href="https://api.whatsapp.com/send?phone=5511948752451&text=Ol%C3%A1%20avaliador%20da%20Verzel%2C%20curtindo%20meu%20teste%3F%20Espero%20que%20sim%20hahaha">Contatar anunciante</a></button>
                             <button class="buttonsCarro" onClick="changePage(${listaCarros[i].id}, ${listaCarros[i].dono_id})">Editar carro</button>
                         </div>
